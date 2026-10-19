@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.matchParentSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -100,20 +99,18 @@ fun Material3InstallerSheet(
             blurRadius = if (sheetState.targetValue == SheetValue.Expanded) 30 else 0,
         )
 
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Material3GlassSheetSurface(
-                shape = shape,
-                useBlur = useBlur,
-                isDark = isDark,
-                modifier = Modifier
-                    .matchParentSize()
-                    .padding(horizontal = SheetOuterPadding),
-            )
+        Material3GlassSheetSurface(
+            shape = shape,
+            useBlur = useBlur,
+            isDark = isDark,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = SheetOuterPadding),
+        ) {
             InstallerSheetContent(
                 params = params,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = SheetOuterPadding)
                     .windowInsetsPadding(WindowInsets.navigationBars),
             )
         }
@@ -130,6 +127,7 @@ private fun Material3GlassSheetSurface(
     useBlur: Boolean,
     isDark: Boolean,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     val containerColor = MaterialTheme.colorScheme.surfaceContainer
     val surfaceColor = if (useBlur) containerColor.copy(alpha = 0.82f) else containerColor
@@ -158,6 +156,7 @@ private fun Material3GlassSheetSurface(
                     Modifier
                 },
             ),
+        content = content,
     )
 }
 
