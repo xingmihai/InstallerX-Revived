@@ -1,0 +1,63 @@
+=== summary ===
+5:> Task :build-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+6:> Task :build-plugins:generateExternalPluginSpecBuilders FROM-CACHE
+7:> Task :build-plugins:extractPrecompiledScriptPluginPlugins FROM-CACHE
+8:> Task :build-plugins:compilePluginsBlocks FROM-CACHE
+9:> Task :build-plugins:generatePrecompiledScriptPluginAccessors FROM-CACHE
+10:> Task :build-plugins:generateScriptPluginAdapters FROM-CACHE
+11:> Task :build-plugins:compileKotlin FROM-CACHE
+12:> Task :build-plugins:compileJava NO-SOURCE
+13:> Task :build-plugins:pluginDescriptors
+14:> Task :build-plugins:processResources
+15:> Task :build-plugins:classes
+16:> Task :build-plugins:jar
+25:> Task :spotlessKotlinGradle
+26:> Task :spotlessKotlinGradleCheck
+27:> Task :spotlessKotlin
+28:> Task :spotlessKotlinCheck FAILED
+33:FAILURE: Build failed with an exception.
+35:* What went wrong:
+37:> The following files had format violations:
+73:  Run './gradlew spotlessApply' to fix all violations.
+87:BUILD FAILED in 40s
+=== tail ===
+           ············}
+           ········}.onFailure·{·Timber.w(it,·"fetchLatestRelease:·request·failed")·}.getOrNull()
+           ····}
+          @@ -167,11 +170,15 @@
+           
+           ········return·runCatching·{
+           ············client.newCall(request).execute().use·{·response·->
+          -················if·(!response.isSuccessful)·null
+          -················else·{
+          +················if·(!response.isSuccessful)·{
+          +····················null
+          +················}·else·{
+           ····················val·releases·=·json.decodeFromString<List<GithubRelease>>(response.body.string())
+          -····················if·(AppConfig.LEVEL·==·Level.STABLE)·releases.firstOrNull()
+          -····················else·OnlineUpdatePolicy.selectPreviewRelease(releases)
+          +····················if·(AppConfig.LEVEL·==·Level.STABLE)·{
+          +························releases.firstOrNull()
+          +····················}·else·{
+          +························OnlineUpdatePolicy.selectPreviewRelease(releases)
+          +····················}
+           ················}
+           ············}
+           ········}.onFailure·{·Timber.w(it,·"fetchReleaseList:·request·failed")·}.getOrNull()
+  Run './gradlew spotlessApply' to fix all violations.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 40s
+13 actionable tasks: 7 executed, 6 from cache
+Configuration cache entry stored.
