@@ -25,58 +25,11 @@ No custom signing info. Release build will use the default debug keystore.
 > Task :spotlessKotlinGradle
 > Task :spotlessKotlinGradleCheck
 > Task :spotlessKotlin
-> Task :spotlessKotlinCheck FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/sp-1792397902125.json
+> Task :spotlessKotlinCheck
+> Task :spotlessCheck
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/sp-1792398036777.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/build/reports/problems/problems-report.html
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':spotlessKotlinCheck' (registered by plugin 'installerx.spotless').
-> The following files had format violations:
-      app/src/main/java/com/rosan/installer/data/updater/repository/OnlineUpdateRepositoryImpl.kt
-          @@ -151,8 +151,11 @@
-           
-           ········return·runCatching·{
-           ············client.newCall(request).execute().use·{·response·->
-          -················if·(!response.isSuccessful)·null
-          -················else·json.decodeFromString<GithubRelease>(response.body.string())
-          +················if·(!response.isSuccessful)·{
-          +····················null
-          +················}·else·{
-          +····················json.decodeFromString<GithubRelease>(response.body.string())
-          +················}
-           ············}
-           ········}.onFailure·{·Timber.w(it,·"fetchLatestRelease:·request·failed")·}.getOrNull()
-           ····}
-          @@ -167,11 +170,15 @@
-           
-           ········return·runCatching·{
-           ············client.newCall(request).execute().use·{·response·->
-          -················if·(!response.isSuccessful)·null
-          -················else·{
-          +················if·(!response.isSuccessful)·{
-          +····················null
-          +················}·else·{
-           ····················val·releases·=·json.decodeFromString<List<GithubRelease>>(response.body.string())
-          -····················if·(AppConfig.LEVEL·==·Level.STABLE)·releases.firstOrNull()
-          -····················else·OnlineUpdatePolicy.selectPreviewRelease(releases)
-          +····················if·(AppConfig.LEVEL·==·Level.STABLE)·{
-          +························releases.firstOrNull()
-          +····················}·else·{
-          +························OnlineUpdatePolicy.selectPreviewRelease(releases)
-          +····················}
-           ················}
-           ············}
-           ········}.onFailure·{·Timber.w(it,·"fetchReleaseList:·request·failed")·}.getOrNull()
-  Run './gradlew spotlessApply' to fix all violations.
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights from a Build Scan (powered by Develocity).
-> Get more help at https://help.gradle.org.
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 
@@ -84,6 +37,7 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 40s
+BUILD SUCCESSFUL in 41s
 13 actionable tasks: 7 executed, 6 from cache
 Configuration cache entry stored.
+exit=0
