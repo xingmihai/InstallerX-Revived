@@ -23,28 +23,25 @@ jobs:
           build-scan-publish: false
           cache-read-only: true
       - run: chmod +x ./gradlew
-      - name: Compile
+      - name: Spotless check
         continue-on-error: true
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./gradlew compilePreviewReleaseKotlin --stacktrace --no-daemon > compile-out.txt 2>&1
-          echo "exit=$?" >> compile-out.txt
-      - name: Grep errors
+          ./gradlew spotlessCheck --no-daemon > spotless-out.txt 2>&1
+          echo "exit=$?" >> spotless-out.txt
+      - name: Grep result
         continue-on-error: true
         run: |
           {
-            echo "=== e: lines ==="
-            grep -n "^e: " compile-out.txt | head -60
-            echo "=== What went wrong ==="
-            sed -n '/What went wrong/,/^$/p' compile-out.txt | head -30
-          } > errors.txt 2>&1
-          cat errors.txt
+            echo "=== violations ==="
+            sed -n '/format violations/,/Run .\/gradlew spotlessApply/p' spotless-out.txt | head -60
+            echo "=== build result ==="
+            grep -nE "BUILD SUCCESSFUL|BUILD FAILED" spotless-out.txt
+          } > spotless-errors.txt 2>&1
+          cat spotless-errors.txt
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f compile-out.txt errors.txt
-          git commit -m "chore: temp compile diagnostics" || echo "nothing"
+          git add -f spotless-out.txt spotless-errors.txt
+          git commit -m "chore: temp spotless diagnostics" || echo "nothing"
           git push origin HEAD:main
