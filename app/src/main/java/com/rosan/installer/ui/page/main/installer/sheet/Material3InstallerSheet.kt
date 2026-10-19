@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -52,6 +54,9 @@ private val SheetTopCornerRadius = 28.dp
 private val SheetOuterPadding = 8.dp
 
 private val SheetHorizontalPadding = 16.dp
+
+/** Fraction of the screen height the sheet content may occupy before it scrolls. */
+private const val CONTENT_MAX_HEIGHT_RATIO = 0.75f
 
 /**
  * Material 3 flavour of the installer UI, rendered as a bottom sheet with a
@@ -164,6 +169,9 @@ private fun Material3GlassSheetSurface(
 @Composable
 private fun InstallerSheetContent(params: DialogParams, modifier: Modifier = Modifier) {
     val density = LocalDensity.current
+    // Keep long stages (permission lists, extended menu) from stretching the
+    // sheet to full height; they scroll instead.
+    val maxContentHeight = (LocalConfiguration.current.screenHeightDp * CONTENT_MAX_HEIGHT_RATIO).dp
     var buttonHeightPx by remember { mutableIntStateOf(0) }
     val buttonHeight = (buttonHeightPx / density.density).dp
     val animatedButtonHeight by animateDpAsState(
@@ -175,7 +183,7 @@ private fun InstallerSheetContent(params: DialogParams, modifier: Modifier = Mod
         label = "sheet_button_height",
     )
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.heightIn(max = maxContentHeight)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
