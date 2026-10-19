@@ -8,6 +8,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -127,7 +128,7 @@ private fun Material3GlassSheetSurface(
     useBlur: Boolean,
     isDark: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     val containerColor = MaterialTheme.colorScheme.surfaceContainer
     val surfaceColor = if (useBlur) containerColor.copy(alpha = 0.82f) else containerColor
