@@ -130,7 +130,7 @@ fun AboutPage(useBlur: Boolean, viewModel: AboutViewModel = koinViewModel()) {
                             icon = AppIcons.ViewSourceCode,
                             title = stringResource(R.string.get_source_code),
                             description = stringResource(R.string.get_source_code_detail),
-                            onClick = { uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived") },
+                            onClick = { uriHandler.openUri("https://github.com/xingmihai/InstallerX-Revived") },
                         )
                     }
                     item {
@@ -254,7 +254,7 @@ private fun BottomSheetContent(
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived/releases")
+                uriHandler.openUri("https://github.com/xingmihai/InstallerX-Revived/releases")
             },
             modifier = Modifier.fillMaxWidth(),
         ) {

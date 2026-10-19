@@ -32,7 +32,7 @@ class OnlineUpdateRepositoryImpl(
     private val appSettingsRepository: AppSettingsRepository,
 ) : UpdateRepository {
     companion object {
-        private const val REPO_OWNER = "wxxsfxyzm"
+        private const val REPO_OWNER = "xingmihai"
         private const val REPO_NAME = "InstallerX-Revived"
     }
 
@@ -134,28 +134,47 @@ class OnlineUpdateRepositoryImpl(
     }
 
     private fun fetchRemoteRelease(): GithubRelease? {
-        val url = if (AppConfig.LEVEL == Level.STABLE) {
-            "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest"
-        } else {
-            "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases"
+        if (AppConfig.LEVEL == Level.STABLE) {
+            fetchLatestRelease()?.let { return it }
+            Timber.w("fetchRemoteRelease: latest release unavailable, falling back to release list")
         }
+        return fetchReleaseList()
+    }
+
+    private fun fetchLatestRelease(): GithubRelease? {
+        val url = "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest"
 
         val request = Request.Builder()
             .url(url)
             .header("Accept", "application/vnd.github+json")
             .build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) return null
-            val bodyString = response.body.string()
-
-            return if (AppConfig.LEVEL == Level.STABLE) {
-                json.decodeFromString<GithubRelease>(bodyString)
-            } else {
-                val releases = json.decodeFromString<List<GithubRelease>>(bodyString)
-                OnlineUpdatePolicy.selectPreviewRelease(releases)
+        return runCatching {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) null
+                else json.decodeFromString<GithubRelease>(response.body.string())
             }
-        }
+        }.onFailure { Timber.w(it, "fetchLatestRelease: request failed") }.getOrNull()
+    }
+
+    private fun fetchReleaseList(): GithubRelease? {
+        val url = "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases"
+
+        val request = Request.Builder()
+            .url(url)
+            .header("Accept", "application/vnd.github+json")
+            .build()
+
+        return runCatching {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) null
+                else {
+                    val releases = json.decodeFromString<List<GithubRelease>>(response.body.string())
+                    if (AppConfig.LEVEL == Level.STABLE) releases.firstOrNull()
+                    else OnlineUpdatePolicy.selectPreviewRelease(releases)
+                }
+            }
+        }.onFailure { Timber.w(it, "fetchReleaseList: request failed") }.getOrNull()
     }
 
     override suspend fun downloadUpdate(url: String): Pair<InputStream, Long>? = withContext(Dispatchers.IO) {

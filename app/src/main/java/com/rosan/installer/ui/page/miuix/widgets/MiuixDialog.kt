@@ -144,7 +144,7 @@ fun MiuixUpdateDialog(showState: MutableState<Boolean>, onDismiss: () -> Unit) {
                     BasicComponent(
                         title = "GitHub",
                         onClick = {
-                            uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived/releases")
+                            uriHandler.openUri("https://github.com/xingmihai/InstallerX-Revived/releases")
                             onDismiss()
                         },
                         endActions = {
