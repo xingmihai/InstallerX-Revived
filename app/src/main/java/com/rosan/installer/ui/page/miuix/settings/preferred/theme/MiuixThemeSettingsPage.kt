@@ -157,6 +157,14 @@ fun MiuixThemeSettingsPage(
                         )
                     }
                     MiuixSwitchWidget(
+                        title = stringResource(R.string.theme_settings_use_installer_sheet),
+                        description = stringResource(R.string.theme_settings_use_installer_sheet_desc),
+                        checked = uiState.useInstallerSheet,
+                        onCheckedChange = {
+                            viewModel.dispatch(ThemeSettingsAction.SetUseInstallerSheet(it))
+                        },
+                    )
+                    MiuixSwitchWidget(
                         title = stringResource(R.string.theme_settings_miuix_custom_colors),
                         description = stringResource(R.string.theme_settings_miuix_custom_colors_desc),
                         checked = uiState.useMiuixMonet,
