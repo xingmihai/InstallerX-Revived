@@ -23,50 +23,50 @@ No custom signing info. Debug build will use the default debug keystore.
 No custom signing info. Release build will use the default debug keystore.
 
 > Task :hidden-api:preBuild UP-TO-DATE
+> Task :app-process:preBuild UP-TO-DATE
 > Task :hidden-api:preReleaseBuild UP-TO-DATE
 > Task :app:preBuild UP-TO-DATE
-> Task :app-process:preBuild UP-TO-DATE
 > Task :app-process:preReleaseBuild UP-TO-DATE
 > Task :app:prePreviewReleaseBuild UP-TO-DATE
 > Task :hidden-api:generateReleaseResources FROM-CACHE
 > Task :app-process:extractReleaseSupportedLocales FROM-CACHE
 > Task :app:prepareLibraryDefinitionsPreviewRelease FROM-CACHE
+> Task :app:extractPreviewReleaseSupportedLocales FROM-CACHE
+> Task :app:generatePreviewReleaseResources FROM-CACHE
 > Task :app:generatePreviewReleaseBuildConfig
-> Task :app:generatePreviewReleaseResources
-> Task :app-process:compileReleaseAidl FROM-CACHE
 > Task :app-process:processReleaseNavigationResources FROM-CACHE
-> Task :app:extractPreviewReleaseSupportedLocales
-> Task :app:mapPreviewReleaseSourceSetPaths
 > Task :app-process:generateReleaseBuildConfig FROM-CACHE
+> Task :app-process:compileReleaseAidl FROM-CACHE
 > Task :app-process:generateReleaseResources FROM-CACHE
+> Task :app:mapPreviewReleaseSourceSetPaths
 > Task :app-process:packageReleaseResources FROM-CACHE
 > Task :app:generatePreviewReleaseLocaleConfig FROM-CACHE
-> Task :app-process:parseReleaseLocalResources FROM-CACHE
-> Task :app-process:generateReleaseRFile FROM-CACHE
+> Task :app:packagePreviewReleaseResources FROM-CACHE
 > Task :hidden-api:packageReleaseResources FROM-CACHE
 > Task :hidden-api:processReleaseNavigationResources FROM-CACHE
+> Task :app-process:parseReleaseLocalResources FROM-CACHE
+> Task :app:compilePreviewReleaseAidl FROM-CACHE
+> Task :app-process:generateReleaseRFile FROM-CACHE
+> Task :app-process:javaPreCompileRelease FROM-CACHE
+> Task :hidden-api:javaPreCompileRelease FROM-CACHE
+> Task :app:processPreviewReleaseNavigationResources FROM-CACHE
+> Task :app:parsePreviewReleaseLocalResources FROM-CACHE
+> Task :app:generatePreviewReleaseRFile FROM-CACHE
 > Task :hidden-api:parseReleaseLocalResources FROM-CACHE
 > Task :hidden-api:generateReleaseRFile FROM-CACHE
 > Task :hidden-api:compileReleaseKotlin NO-SOURCE
-> Task :hidden-api:javaPreCompileRelease FROM-CACHE
-> Task :app:compilePreviewReleaseAidl FROM-CACHE
-> Task :app-process:javaPreCompileRelease FROM-CACHE
-> Task :app:processPreviewReleaseNavigationResources
-> Task :app:packagePreviewReleaseResources
-> Task :app:parsePreviewReleaseLocalResources
 > Task :hidden-api:compileReleaseJavaWithJavac FROM-CACHE
 > Task :hidden-api:bundleLibCompileToJarRelease
 > Task :app-process:compileReleaseKotlin NO-SOURCE
-> Task :app:generatePreviewReleaseRFile
 > Task :app-process:compileReleaseJavaWithJavac FROM-CACHE
 > Task :app-process:bundleLibCompileToJarRelease
 > Task :app:kspPreviewReleaseKotlin
 > Task :app:copyRoomSchemas NO-SOURCE
 > Task :app:compilePreviewReleaseKotlin
-e: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:14:43 Unresolved reference 'matchParentSize'.
+e: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:159:19 Argument type mismatch: actual type is 'ComposableFunction0<Unit>', but 'ComposableFunction1<BoxScope, Unit>' was expected.
 
 > Task :app:compilePreviewReleaseKotlin FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1792414942725.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1792415205072.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/build/reports/problems/problems-report.html
 
@@ -75,10 +75,10 @@ FAILURE: Build failed with an exception.
 * What went wrong:
 Execution failed for task ':app:compilePreviewReleaseKotlin' (registered by plugin 'com.android.internal.application').
 > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
-   > Kotlin compiler: UNRESOLVED_IMPORT
+   > Kotlin compiler: ARGUMENT_TYPE_MISMATCH
        Kotlin compiler error
-         Unresolved reference 'matchParentSize'.
-         Location: /home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:14
+         Argument type mismatch: actual type is 'ComposableFunction0<Unit>', but 'ComposableFunction1<BoxScope, Unit>' was expected.
+         Location: /home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:159
 
 * Try:
 > Run with --info or --debug option to get more log output.
@@ -234,7 +234,7 @@ Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionExcept
 	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:68)
 	at org.gradle.api.internal.tasks.execution.DefaultTaskNodeExecutor.doExecute(DefaultTaskNodeExecutor.java:364)
 	... 25 more
-Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Unresolved reference 'matchParentSize'.
+Caused by: org.jetbrains.kotlin.gradle.tasks.CompilationErrorException: Argument type mismatch: actual type is 'ComposableFunction0<Unit>', but 'ComposableFunction1<BoxScope, Unit>' was expected.
 	at org.jetbrains.kotlin.gradle.plugin.diagnostics.DefaultCompilerDiagnosticsProblemsReporter.reportCompilerMessage(CompilerDiagnosticsProblemsReporter.kt:63)
 	at org.jetbrains.kotlin.compilerRunner.btapi.ProblemsApiCompilerMessageRenderer.replayTo(ProblemsApiCompilerMessageRenderer.kt:88)
 	at org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork.execute(BuildToolsApiCompilationWork.kt:251)
@@ -277,6 +277,6 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 1m 17s
-41 actionable tasks: 15 executed, 26 from cache
+BUILD FAILED in 1m 19s
+41 actionable tasks: 9 executed, 32 from cache
 Configuration cache entry stored.
