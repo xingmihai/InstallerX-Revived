@@ -1,0 +1,13 @@
+=== e: lines ===
+66:e: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/data/settings/repository/OperationHistoryRepositoryImpl.kt:54:26 Return type of 'suspend fun deleteById(id: Long): Boolean' is not a subtype of the return type of the overridden member 'suspend fun deleteById(id: Long): Unit' defined in 'com.rosan.installer.domain.history.repository.OperationHistoryRepository'.
+=== error: lines ===
+79:       Kotlin compiler error
+=== FAILURE / What went wrong ===
+* What went wrong:
+Execution failed for task ':app:compilePreviewReleaseKotlin' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: RETURN_TYPE_MISMATCH_ON_OVERRIDE
+       Kotlin compiler error
+         Return type of 'suspend fun deleteById(id: Long): Boolean' is not a subtype of the return type of the overridden member 'suspend fun deleteById(id: Long): Unit' defined in 'com.rosan.installer.domain.history.repository.OperationHistoryRepository'.
+         Location: /home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/data/settings/repository/OperationHistoryRepositoryImpl.kt:54
+
