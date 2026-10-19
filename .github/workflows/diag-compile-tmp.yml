@@ -22,48 +22,27 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
           build-scan-publish: false
           cache-read-only: true
-      - name: Decode signing key
-        env:
-          SIGNING_KEY_STORE_BASE64: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        run: |
-          if [ -z "${SIGNING_STORE_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_STORE_BASE64:-}" ] || [ -z "${SIGNING_KEY_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_ALIAS:-}" ]; then
-            exit 0
-          fi
-          mkdir -p keystore
-          echo "${SIGNING_KEY_STORE_BASE64}" | base64 --decode > keystore/carlyu.jks
-          echo "storeFile=keystore/carlyu.jks" > keystore.properties
-          echo "keyAlias=${SIGNING_KEY_ALIAS}" >> keystore.properties
-          echo "keyPassword=${SIGNING_KEY_PASSWORD}" >> keystore.properties
-          echo "storePassword=${SIGNING_STORE_PASSWORD}" >> keystore.properties
       - run: chmod +x ./gradlew
-      - name: Compile and capture errors
-        id: comp
+      - name: Spotless check
+        id: sp
         continue-on-error: true
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./gradlew compilePreviewReleaseKotlin --stacktrace --no-daemon > compile-out.txt 2>&1
-          echo "exit=$?" >> compile-out.txt
-      - name: Grep errors
+          ./gradlew spotlessCheck --no-daemon > spotless-out.txt 2>&1
+          echo "exit=$?" >> spotless-out.txt
+      - name: Grep result
         continue-on-error: true
         run: |
           {
-            echo "=== e: lines ==="
-            grep -n "^e: " compile-out.txt | head -80
-            echo "=== error: lines ==="
-            grep -niE "\berror\b" compile-out.txt | head -40
-            echo "=== FAILURE / What went wrong ==="
-            sed -n '/What went wrong/,/^$/p' compile-out.txt | head -40
-          } > errors.txt 2>&1
-          cat errors.txt
-      - name: Commit diagnostics
+            echo "=== summary ==="
+            grep -nE "^(> Task|FAILURE|BUILD)|What went wrong|violat|Run 'gradle|Formatted|The following files" spotless-out.txt | head -60
+            echo "=== tail ==="
+            tail -40 spotless-out.txt
+          } > spotless-errors.txt 2>&1
+          cat spotless-errors.txt
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f compile-out.txt errors.txt
-          git commit -m "chore: temp compile diagnostics" || echo "nothing"
+          git add -f spotless-out.txt spotless-errors.txt
+          git commit -m "chore: temp spotless diagnostics" || echo "nothing"
           git push origin HEAD:main
