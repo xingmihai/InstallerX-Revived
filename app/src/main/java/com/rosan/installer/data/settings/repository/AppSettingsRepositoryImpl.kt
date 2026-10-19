@@ -260,6 +260,7 @@ class AppSettingsRepositoryImpl(
         BooleanSetting.UiUseMiuixMonet -> AppDataStore.UI_USE_MIUIX_MONET
 
         BooleanSetting.UiUseAppleFloatingBar -> AppDataStore.UI_USE_APPLE_FLOATING_BAR
+
         BooleanSetting.UiUseInstallerSheet -> AppDataStore.UI_USE_INSTALLER_SHEET
 
         BooleanSetting.UiDynColorFollowPkgIcon -> AppDataStore.UI_DYN_COLOR_FOLLOW_PKG_ICON

@@ -236,17 +236,17 @@ fun ThemeSettingsPage(viewModel: ThemeSettingsViewModel = koinViewModel()) {
                                 checked = uiState.useBlur,
                                 onCheckedChange = { viewModel.dispatch(ThemeSettingsAction.SetUseBlur(it)) },
                             )
-                        item {
-                            SwitchWidget(
-                                icon = AppIcons.Blur,
-                                title = stringResource(R.string.theme_settings_use_installer_sheet),
-                                description = stringResource(R.string.theme_settings_use_installer_sheet_desc),
-                                checked = uiState.useInstallerSheet,
-                                onCheckedChange = {
-                                    viewModel.dispatch(ThemeSettingsAction.SetUseInstallerSheet(it))
-                                },
-                            )
-                        }
+                            item {
+                                SwitchWidget(
+                                    icon = AppIcons.Blur,
+                                    title = stringResource(R.string.theme_settings_use_installer_sheet),
+                                    description = stringResource(R.string.theme_settings_use_installer_sheet_desc),
+                                    checked = uiState.useInstallerSheet,
+                                    onCheckedChange = {
+                                        viewModel.dispatch(ThemeSettingsAction.SetUseInstallerSheet(it))
+                                    },
+                                )
+                            }
                         }
                     }
                     item {
