@@ -16,9 +16,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -183,12 +181,15 @@ private fun InstallerSheetContent(params: DialogParams, modifier: Modifier = Mod
         label = "sheet_button_height",
     )
 
+    // No verticalScroll here: several stages render their own LazyColumn, and
+    // wrapping them in a scrolling parent passes infinite max-height constraints
+    // down, which Compose rejects. The bounded height below is what lets those
+    // inner lazy lists scroll within the sheet.
     Box(modifier = modifier.heightIn(max = maxContentHeight)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = animatedButtonHeight)
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = SheetHorizontalPadding)
                 .padding(top = 12.dp, bottom = 12.dp)
                 .animateContentSize(
