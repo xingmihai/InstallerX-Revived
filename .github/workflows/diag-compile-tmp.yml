@@ -23,25 +23,32 @@ jobs:
           build-scan-publish: false
           cache-read-only: true
       - run: chmod +x ./gradlew
-      - name: Spotless check
+      - name: Spotless apply
         continue-on-error: true
         run: |
-          ./gradlew spotlessCheck --no-daemon > spotless-out.txt 2>&1
-          echo "exit=$?" >> spotless-out.txt
-      - name: Grep result
-        continue-on-error: true
-        run: |
-          {
-            echo "=== violations ==="
-            sed -n '/format violations/,/Run .\/gradlew spotlessApply/p' spotless-out.txt | head -60
-            echo "=== build result ==="
-            grep -nE "BUILD SUCCESSFUL|BUILD FAILED" spotless-out.txt
-          } > spotless-errors.txt 2>&1
-          cat spotless-errors.txt
-      - name: Commit
+          ./gradlew spotlessApply --no-daemon > apply-out.txt 2>&1
+          echo "exit=$?" >> apply-out.txt
+          git --no-pager diff --name-only > changed.txt
+      - name: Commit formatting
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f spotless-out.txt spotless-errors.txt
-          git commit -m "chore: temp spotless diagnostics" || echo "nothing"
+          if [ -s changed.txt ]; then
+            git add -A $(cat changed.txt)
+            git commit -m "style: apply spotless formatting" || echo "nothing"
+            git push origin HEAD:main
+          else
+            echo "no formatting changes"
+          fi
+      - name: Verify
+        continue-on-error: true
+        run: |
+          ./gradlew spotlessCheck --no-daemon > verify.txt 2>&1
+          grep -nE "BUILD SUCCESSFUL|BUILD FAILED" verify.txt | head -3
+      - name: Commit verify
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f apply-out.txt changed.txt verify.txt
+          git commit -m "chore: temp diagnostics output" || echo "nothing"
           git push origin HEAD:main
