@@ -1,0 +1,60 @@
+=== violations ===
+> The following files had format violations:
+      app/src/main/java/com/rosan/installer/data/settings/repository/AppSettingsRepositoryImpl.kt
+          @@ -260,6 +260,7 @@
+           ········BooleanSetting.UiUseMiuixMonet·->·AppDataStore.UI_USE_MIUIX_MONET
+           
+           ········BooleanSetting.UiUseAppleFloatingBar·->·AppDataStore.UI_USE_APPLE_FLOATING_BAR
+          +
+           ········BooleanSetting.UiUseInstallerSheet·->·AppDataStore.UI_USE_INSTALLER_SHEET
+           
+           ········BooleanSetting.UiDynColorFollowPkgIcon·->·AppDataStore.UI_DYN_COLOR_FOLLOW_PKG_ICON
+      app/src/main/java/com/rosan/installer/ui/page/main/settings/preferred/theme/ThemeSettingsPage.kt
+          @@ -236,17 +236,17 @@
+           ································checked·=·uiState.useBlur,
+           ································onCheckedChange·=·{·viewModel.dispatch(ThemeSettingsAction.SetUseBlur(it))·},
+           ····························)
+          -························item·{
+          -····························SwitchWidget(
+          -································icon·=·AppIcons.Blur,
+          -································title·=·stringResource(R.string.theme_settings_use_installer_sheet),
+          -································description·=·stringResource(R.string.theme_settings_use_installer_sheet_desc),
+          -································checked·=·uiState.useInstallerSheet,
+          -································onCheckedChange·=·{
+          -····································viewModel.dispatch(ThemeSettingsAction.SetUseInstallerSheet(it))
+          -································},
+          -····························)
+          -························}
+          +····························item·{
+          +································SwitchWidget(
+          +····································icon·=·AppIcons.Blur,
+          +····································title·=·stringResource(R.string.theme_settings_use_installer_sheet),
+          +····································description·=·stringResource(R.string.theme_settings_use_installer_sheet_desc),
+          +····································checked·=·uiState.useInstallerSheet,
+          +····································onCheckedChange·=·{
+          +········································viewModel.dispatch(ThemeSettingsAction.SetUseInstallerSheet(it))
+          +····································},
+          +································)
+          +····························}
+           ························}
+           ····················}
+           ····················item·{
+  Run './gradlew spotlessApply' to fix all violations.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 40s
+13 actionable tasks: 7 executed, 6 from cache
+Configuration cache entry stored.
+=== build result ===
+91:BUILD FAILED in 40s
