@@ -3,6 +3,7 @@
 package com.rosan.installer.ui.page.main.settings.history
 
 import android.content.ClipData
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CheckableDropdownMenuItem
@@ -117,6 +119,7 @@ private fun HistoryPageContent(
     val backdrop = rememberMaterial3BlurBackdrop(useBlur)
 
     var selectedRecord by remember { mutableStateOf<OperationHistoryModel?>(null) }
+    var recordPendingDelete by remember { mutableStateOf<OperationHistoryModel?>(null) }
     var showClearConfirmDialog by remember { mutableStateOf(false) }
     var showDisableConfirmDialog by remember { mutableStateOf(false) }
     var showHistoryMenu by remember { mutableStateOf(false) }
@@ -281,6 +284,7 @@ private fun HistoryPageContent(
                                 shape = shape,
                                 showIndicator = state.areIndicatorsEnabled,
                                 onClick = { selectedRecord = record },
+                                onLongClick = { recordPendingDelete = record },
                             )
                         }
                     }
@@ -364,10 +368,57 @@ private fun HistoryPageContent(
             HistoryRecordDetailContent(
                 record = selectedRecord!!,
                 isSystemApp = state.isSystemApp,
+                onDelete = { recordPendingDelete = selectedRecord },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
     }
+
+    recordPendingDelete?.let { record ->
+        HistoryDeleteRecordConfirmDialog(
+            record = record,
+            onDismiss = { recordPendingDelete = null },
+            onConfirm = {
+                recordPendingDelete = null
+                selectedRecord = null
+                onAction(HistoryViewAction.DeleteRecord(record.id))
+            },
+        )
+    }
+}
+
+@Composable
+private fun HistoryDeleteRecordConfirmDialog(
+    record: OperationHistoryModel,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.history_delete_record_confirm_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.history_delete_record_confirm_desc))
+                Text(
+                    text = record.appLabel ?: record.packageName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(stringResource(R.string.delete))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        },
+    )
 }
 
 @Composable
@@ -396,7 +447,13 @@ private fun EmptyHistory(isHistoryEnabled: Boolean, modifier: Modifier = Modifie
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-private fun HistoryRecordBriefCard(record: OperationHistoryModel, shape: Shape, showIndicator: Boolean, onClick: () -> Unit) {
+private fun HistoryRecordBriefCard(
+    record: OperationHistoryModel,
+    shape: Shape,
+    showIndicator: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
     val statusColor = if (record.status == OperationStatus.SUCCESS) {
         MaterialTheme.colorScheme.primary
     } else {
@@ -410,8 +467,9 @@ private fun HistoryRecordBriefCard(record: OperationHistoryModel, shape: Shape, 
     }
 
     Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright),
         shape = shape,
     ) {
@@ -477,7 +535,12 @@ private fun HistoryRecordBriefCard(record: OperationHistoryModel, shape: Shape, 
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun HistoryRecordDetailContent(record: OperationHistoryModel, isSystemApp: Boolean, modifier: Modifier = Modifier) {
+fun HistoryRecordDetailContent(
+    record: OperationHistoryModel,
+    isSystemApp: Boolean,
+    onDelete: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(
@@ -559,6 +622,29 @@ fun HistoryRecordDetailContent(record: OperationHistoryModel, isSystemApp: Boole
                             .ifBlank { stringResource(R.string.history_unknown) },
                         valueColor = MaterialTheme.colorScheme.error,
                     )
+                }
+            }
+        }
+
+        if (onDelete != null) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    TextButton(
+                        onClick = onDelete,
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = MaterialTheme.colorScheme.error,
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = AppIcons.Delete,
+                            contentDescription = null,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.history_delete_record))
+                    }
                 }
             }
         }

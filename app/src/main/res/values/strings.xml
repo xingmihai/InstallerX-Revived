@@ -46,6 +46,9 @@
     <string name="history_clear">Clear history</string>
     <string name="history_clear_confirm_title">Clear history?</string>
     <string name="history_clear_confirm_desc">All installation and uninstallation records will be deleted. This cannot be undone.</string>
+    <string name="history_delete_record">Delete record</string>
+    <string name="history_delete_record_confirm_title">Delete this record?</string>
+    <string name="history_delete_record_confirm_desc">This record will be removed from the history. This cannot be undone.</string>
     <string name="history_operation_install">Install</string>
     <string name="history_operation_uninstall">Uninstall</string>
     <string name="history_operation_session_confirm">Session</string>

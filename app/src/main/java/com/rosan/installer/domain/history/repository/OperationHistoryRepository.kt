@@ -15,6 +15,8 @@ interface OperationHistoryRepository {
 
     suspend fun insert(model: OperationHistoryModel)
 
+    suspend fun deleteById(id: Long)
+
     suspend fun setEnabled(enabled: Boolean, clearHistory: Boolean = false)
 
     suspend fun setIndicatorsEnabled(enabled: Boolean)

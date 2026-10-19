@@ -3,6 +3,7 @@
 package com.rosan.installer.ui.page.miuix.settings.history
 
 import android.content.ClipData
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -96,6 +97,7 @@ fun MiuixHistoryPage(
     val layoutDirection = LocalLayoutDirection.current
     val topBarBackdrop = rememberMiuixBlurBackdrop(enableBlur)
     var selectedRecord by remember { mutableStateOf<OperationHistoryModel?>(null) }
+    var recordPendingDelete by remember { mutableStateOf<OperationHistoryModel?>(null) }
     var showRecordDetailSheet by remember { mutableStateOf(false) }
     var showClearConfirmDialog by remember { mutableStateOf(false) }
     var showDisableConfirmDialog by remember { mutableStateOf(false) }
@@ -232,6 +234,7 @@ fun MiuixHistoryPage(
                                 selectedRecord = record
                                 showRecordDetailSheet = true
                             },
+                            onLongClick = { recordPendingDelete = record },
                         )
                     }
                 }
@@ -286,11 +289,60 @@ fun MiuixHistoryPage(
             HistoryRecordDetailContent(
                 record = record,
                 isSystemApp = state.isSystemApp,
+                onDelete = { recordPendingDelete = record },
                 modifier = Modifier
                     .fillMaxWidth(),
             )
         }
     }
+
+    HistoryDeleteRecordConfirmDialog(
+        show = recordPendingDelete != null,
+        onDismiss = { recordPendingDelete = null },
+        onConfirm = {
+            val record = recordPendingDelete
+            recordPendingDelete = null
+            showRecordDetailSheet = false
+            selectedRecord = null
+            if (record != null) {
+                viewModel.dispatch(HistoryViewAction.DeleteRecord(record.id))
+            }
+        },
+    )
+}
+
+@Composable
+private fun HistoryDeleteRecordConfirmDialog(show: Boolean, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+    WindowDialog(
+        show = show,
+        onDismissRequest = onDismiss,
+        title = stringResource(R.string.history_delete_record_confirm_title),
+        content = {
+            Column {
+                Text(
+                    text = stringResource(R.string.history_delete_record_confirm_desc),
+                    color = MiuixTheme.colorScheme.onSurface,
+                )
+                Spacer(modifier = Modifier.size(24.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    TextButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onDismiss,
+                        text = stringResource(R.string.cancel),
+                    )
+                    TextButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onConfirm,
+                        text = stringResource(R.string.delete),
+                        colors = ButtonDefaults.textButtonColorsPrimary(),
+                    )
+                }
+            }
+        },
+    )
 }
 
 @Composable
@@ -326,7 +378,12 @@ private fun EmptyHistory(isHistoryEnabled: Boolean, modifier: Modifier = Modifie
 }
 
 @Composable
-private fun HistoryRecordBriefCard(record: OperationHistoryModel, showIndicator: Boolean, onClick: () -> Unit) {
+private fun HistoryRecordBriefCard(
+    record: OperationHistoryModel,
+    showIndicator: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
     val statusColor = if (record.status == OperationStatus.SUCCESS) {
         MiuixTheme.colorScheme.primary
     } else {
@@ -340,10 +397,11 @@ private fun HistoryRecordBriefCard(record: OperationHistoryModel, showIndicator:
     }
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick),
         insideMargin = PaddingValues(16.dp),
         pressFeedbackType = PressFeedbackType.Sink,
-        onClick = onClick,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -405,7 +463,12 @@ private fun HistoryRecordBriefCard(record: OperationHistoryModel, showIndicator:
 }
 
 @Composable
-private fun HistoryRecordDetailContent(record: OperationHistoryModel, isSystemApp: Boolean, modifier: Modifier = Modifier) {
+private fun HistoryRecordDetailContent(
+    record: OperationHistoryModel,
+    isSystemApp: Boolean,
+    onDelete: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -488,6 +551,20 @@ private fun HistoryRecordDetailContent(record: OperationHistoryModel, isSystemAp
                         .ifBlank { stringResource(R.string.history_unknown) },
                     valueColor = MiuixTheme.colorScheme.error,
                 )
+            }
+        }
+        if (onDelete != null) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    TextButton(
+                        onClick = onDelete,
+                        text = stringResource(R.string.history_delete_record),
+                        colors = ButtonDefaults.textButtonColorsPrimary(),
+                    )
+                }
             }
         }
         item {

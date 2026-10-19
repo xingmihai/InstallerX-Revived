@@ -41,6 +41,10 @@ class HistoryViewModel(
                 repository.clear()
             }
 
+            is HistoryViewAction.DeleteRecord -> viewModelScope.launch {
+                repository.deleteById(action.id)
+            }
+
             is HistoryViewAction.SetHistoryEnabled -> viewModelScope.launch {
                 repository.setEnabled(
                     enabled = action.enabled,

@@ -51,6 +51,13 @@ class OperationHistoryRepositoryImpl(
         dao.trimToLimit(DEFAULT_HISTORY_LIMIT)
     }
 
+    override suspend fun deleteById(id: Long) = sessionHistoryMutex.withLock {
+        dao.deleteById(id)
+        // Drop the cached session id so a later operation for the same session
+        // can be recorded again instead of trying to replace a deleted row.
+        latestSessionHistoryIds.values.remove(id)
+    }
+
     override suspend fun setEnabled(enabled: Boolean, clearHistory: Boolean) = sessionHistoryMutex.withLock {
         appSettingsRepository.putBoolean(BooleanSetting.OperationHistoryEnabled, enabled)
         if (!enabled && clearHistory) {
