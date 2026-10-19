@@ -1,0 +1,11 @@
+=== e: lines ===
+66:e: file:///home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:14:43 Unresolved reference 'matchParentSize'.
+=== What went wrong ===
+* What went wrong:
+Execution failed for task ':app:compilePreviewReleaseKotlin' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Kotlin compiler: UNRESOLVED_IMPORT
+       Kotlin compiler error
+         Unresolved reference 'matchParentSize'.
+         Location: /home/runner/work/InstallerX-Revived/InstallerX-Revived/app/src/main/java/com/rosan/installer/ui/page/main/installer/sheet/Material3InstallerSheet.kt:14
+
