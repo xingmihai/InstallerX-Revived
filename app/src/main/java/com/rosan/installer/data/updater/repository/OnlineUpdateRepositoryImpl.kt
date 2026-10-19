@@ -151,8 +151,11 @@ class OnlineUpdateRepositoryImpl(
 
         return runCatching {
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) null
-                else json.decodeFromString<GithubRelease>(response.body.string())
+                if (!response.isSuccessful) {
+                    null
+                } else {
+                    json.decodeFromString<GithubRelease>(response.body.string())
+                }
             }
         }.onFailure { Timber.w(it, "fetchLatestRelease: request failed") }.getOrNull()
     }
@@ -167,11 +170,15 @@ class OnlineUpdateRepositoryImpl(
 
         return runCatching {
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) null
-                else {
+                if (!response.isSuccessful) {
+                    null
+                } else {
                     val releases = json.decodeFromString<List<GithubRelease>>(response.body.string())
-                    if (AppConfig.LEVEL == Level.STABLE) releases.firstOrNull()
-                    else OnlineUpdatePolicy.selectPreviewRelease(releases)
+                    if (AppConfig.LEVEL == Level.STABLE) {
+                        releases.firstOrNull()
+                    } else {
+                        OnlineUpdatePolicy.selectPreviewRelease(releases)
+                    }
                 }
             }
         }.onFailure { Timber.w(it, "fetchReleaseList: request failed") }.getOrNull()
