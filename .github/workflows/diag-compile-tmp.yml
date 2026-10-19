@@ -1,0 +1,69 @@
+name: Diag Compile (temp)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v6
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
+          build-scan-publish: false
+          cache-read-only: true
+      - name: Decode signing key
+        env:
+          SIGNING_KEY_STORE_BASE64: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: |
+          if [ -z "${SIGNING_STORE_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_STORE_BASE64:-}" ] || [ -z "${SIGNING_KEY_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_ALIAS:-}" ]; then
+            exit 0
+          fi
+          mkdir -p keystore
+          echo "${SIGNING_KEY_STORE_BASE64}" | base64 --decode > keystore/carlyu.jks
+          echo "storeFile=keystore/carlyu.jks" > keystore.properties
+          echo "keyAlias=${SIGNING_KEY_ALIAS}" >> keystore.properties
+          echo "keyPassword=${SIGNING_KEY_PASSWORD}" >> keystore.properties
+          echo "storePassword=${SIGNING_STORE_PASSWORD}" >> keystore.properties
+      - run: chmod +x ./gradlew
+      - name: Compile and capture errors
+        id: comp
+        continue-on-error: true
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew compilePreviewReleaseKotlin --stacktrace --no-daemon > compile-out.txt 2>&1
+          echo "exit=$?" >> compile-out.txt
+      - name: Grep errors
+        continue-on-error: true
+        run: |
+          {
+            echo "=== e: lines ==="
+            grep -n "^e: " compile-out.txt | head -80
+            echo "=== error: lines ==="
+            grep -niE "\berror\b" compile-out.txt | head -40
+            echo "=== FAILURE / What went wrong ==="
+            sed -n '/What went wrong/,/^$/p' compile-out.txt | head -40
+          } > errors.txt 2>&1
+          cat errors.txt
+      - name: Commit diagnostics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f compile-out.txt errors.txt
+          git commit -m "chore: temp compile diagnostics" || echo "nothing"
+          git push origin HEAD:main
