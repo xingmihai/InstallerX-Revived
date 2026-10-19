@@ -203,7 +203,7 @@ fun MiuixDefaultInstallerPage(useBlur: Boolean, viewModel: HomePageViewModel = k
                                 color = MiuixTheme.colorScheme.primary,
                                 disabledColor = MiuixTheme.colorScheme.disabledOnSecondaryVariant,
                             ),
-                            onClick = { uriHandler.openUri("https://github.com/Chimioo/InxLocker") },
+                            onClick = { uriHandler.openUri("https://github.com/xingmihai/InxLocker") },
                         )
                     }
                 }

@@ -29,7 +29,7 @@ Das vollständige Benutzerhandbuch, Installationsanweisungen, erweiterte Optione
   - **Dhizuku:** kann DevicePolicyManager-basierte Operationen wie das Fixieren des Standardinstallers und App-Installationen ausführen, ist aber bei anderen privilegierten Aufgaben eingeschränkt.
   - **None:** ist vollständig durch das System begrenzt, kann aber lautlos installieren, wenn InstallerX als Systeminstaller läuft.
 - **Profile:** legen fest, wie Installations- und Deinstallationsanfragen verarbeitet werden, einschließlich Installationsmodus, Autorisierer-Override, Installer-/Requester-Metadaten, Zielbenutzer, DexOpt, automatischem Löschen, Split-Auswahl, Sperrlisten und Signaturrichtlinien.
-- **Systemintegration:** InstallerX kann über die Statuskarte auf der Startseite als Standardinstaller fixiert, mit LSPosed-Modulen wie [InxLocker](https://github.com/Chimioo/InxLocker) verwendet oder von fortgeschrittenen Nutzern als Ersatz für den Systeminstaller installiert werden.
+- **Systemintegration:** InstallerX kann über die Statuskarte auf der Startseite als Standardinstaller fixiert, mit LSPosed-Modulen wie [InxLocker](https://github.com/xingmihai/InxLocker) verwendet oder von fortgeschrittenen Nutzern als Ersatz für den Systeminstaller installiert werden.
 - **Moderne Oberfläche:** Material 3 Expressive und Miuix, Dunkelmodus, dynamische Farben, erweiterte Paletten, System-Icon-Packs, farbige Dialoge, Standardbenachrichtigungen, Live Activity und Xiaomi-HyperOS-ähnliche Island-Benachrichtigungen auf unterstützten Xiaomi-Geräten.
 - **Sicherheitskontrollen:** Sperrlisten nach Paketname und SharedUID, Richtlinien für Signaturabweichungen und unbekannte Signaturen, Berechtigungsvorschau, Installationsflags und einmalige intelligente Vorschläge für ausgewählte Blockierungen.
 
@@ -99,7 +99,7 @@ Lies vor dem Öffnen eines Issues [CONTRIBUTING.md](../CONTRIBUTING.md), um die 
 
 ### InstallerX lässt sich nicht als Standardinstaller fixieren
 
-Einige OEM-Systeme kontrollieren den Standard-Paketinstaller sehr streng. Öffne die Seite des Standardinstallers über die Statuskarte auf der Startseite und versuche es dort. Wenn die ROM es weiterhin verhindert, nutze ein LSPosed-Modul wie [InxLocker](https://github.com/Chimioo/InxLocker).
+Einige OEM-Systeme kontrollieren den Standard-Paketinstaller sehr streng. Öffne die Seite des Standardinstallers über die Statuskarte auf der Startseite und versuche es dort. Wenn die ROM es weiterhin verhindert, nutze ein LSPosed-Modul wie [InxLocker](https://github.com/xingmihai/InxLocker).
 
 ### HyperOS meldet, dass System-App-Installationen einen gültigen Installer benötigen
 

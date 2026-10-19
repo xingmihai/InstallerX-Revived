@@ -30,7 +30,7 @@ InstallerX Revived 是一款现代 Android 软件包安装器，也是原 [Insta
   - **Dhizuku：** 受 DevicePolicyManager API 限制，可完成锁定安装器、安装应用等部分操作，但面对其他特权场景能力有限。
   - **无特权：** 完全受系统限制，但 InstallerX 作为系统包管理器运行时可以获得静默安装能力。
 - **配置文件：** 定义安装和卸载请求如何处理，包括安装模式、授权覆盖、安装者/请求方信息、目标用户、DexOpt、自动删除、分包选择、黑名单策略和签名门禁。
-- **系统集成：** 可从首页状态卡进入默认安装器页面完成锁定，必要时配合 [InxLocker](https://github.com/Chimioo/InxLocker) 等 LSPosed 模块，也可由高级用户作为系统包管理器替换系统安装器。
+- **系统集成：** 可从首页状态卡进入默认安装器页面完成锁定，必要时配合 [InxLocker](https://github.com/xingmihai/InxLocker) 等 LSPosed 模块，也可由高级用户作为系统包管理器替换系统安装器。
 - **现代界面：** Material 3 Expressive 与 Miuix 两套界面，深色模式、动态取色、高级调色板、系统图标包、多彩对话框、标准通知、实时活动，以及在支持的小米设备上以小米超级岛发送通知。
 - **安全控制：** 包名和 SharedUID 黑名单、签名不匹配和未知签名策略门禁、权限预览、安装标志位，以及部分阻止场景的一次性智能建议。
 
@@ -100,7 +100,7 @@ gpr.key=YOUR_PERSONAL_ACCESS_TOKEN
 
 ### 无法锁定 InstallerX 为默认安装器？
 
-部分 OEM 系统会严格限制默认安装器。请从首页状态卡进入默认安装器页面后尝试锁定。如果 ROM 仍然阻止锁定，请配合 [InxLocker](https://github.com/Chimioo/InxLocker) 等 LSPosed 模块使用。
+部分 OEM 系统会严格限制默认安装器。请从首页状态卡进入默认安装器页面后尝试锁定。如果 ROM 仍然阻止锁定，请配合 [InxLocker](https://github.com/xingmihai/InxLocker) 等 LSPosed 模块使用。
 
 ### HyperOS 提示安装系统应用需要有效安装者？
 

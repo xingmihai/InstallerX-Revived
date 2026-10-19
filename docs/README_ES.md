@@ -29,7 +29,7 @@ La guía de usuario completa, instrucciones de instalación, opciones avanzadas,
   - **Dhizuku:** puede realizar operaciones basadas en DevicePolicyManager, como bloquear el instalador predeterminado e instalar aplicaciones, pero está limitado en otras tareas privilegiadas.
   - **None:** queda completamente limitado por el sistema, pero puede instalar silenciosamente cuando InstallerX funciona como instalador del sistema.
 - **Perfiles:** definen cómo se procesan las solicitudes de instalación y desinstalación, incluido el modo de instalación, override del autorizador, metadatos de instalador/solicitante, usuario de destino, DexOpt, borrado automático, selección de splits, listas negras y reglas de firma.
-- **Integración del sistema:** InstallerX puede fijarse como instalador predeterminado desde la tarjeta de estado de la pantalla principal, usarse con módulos LSPosed como [InxLocker](https://github.com/Chimioo/InxLocker), o instalarse como reemplazo del instalador del sistema para usuarios avanzados.
+- **Integración del sistema:** InstallerX puede fijarse como instalador predeterminado desde la tarjeta de estado de la pantalla principal, usarse con módulos LSPosed como [InxLocker](https://github.com/xingmihai/InxLocker), o instalarse como reemplazo del instalador del sistema para usuarios avanzados.
 - **Interfaz moderna:** Material 3 Expressive y Miuix, modo oscuro, color dinámico, paletas avanzadas, paquetes de iconos del sistema, diálogos con color, notificaciones estándar, Live Activity y notificaciones estilo isla de Xiaomi HyperOS en dispositivos Xiaomi compatibles.
 - **Controles de seguridad:** listas negras por nombre de paquete y SharedUID, reglas para firma no coincidente o desconocida, vista previa de permisos, flags de instalación y sugerencias inteligentes de un solo uso para algunos bloqueos.
 
@@ -99,7 +99,7 @@ Antes de abrir un issue, lee [CONTRIBUTING.md](../CONTRIBUTING.md) para conocer 
 
 ### No puedo fijar InstallerX como instalador predeterminado
 
-Algunos sistemas OEM controlan estrictamente el instalador predeterminado. Abre la página del instalador predeterminado desde la tarjeta de estado de la pantalla principal e intenta fijarlo allí. Si la ROM todavía lo impide, usa un módulo LSPosed como [InxLocker](https://github.com/Chimioo/InxLocker).
+Algunos sistemas OEM controlan estrictamente el instalador predeterminado. Abre la página del instalador predeterminado desde la tarjeta de estado de la pantalla principal e intenta fijarlo allí. Si la ROM todavía lo impide, usa un módulo LSPosed como [InxLocker](https://github.com/xingmihai/InxLocker).
 
 ### HyperOS dice que instalar aplicaciones del sistema requiere un instalador válido
 

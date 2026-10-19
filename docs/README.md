@@ -30,7 +30,7 @@ The full user guide, installation instructions, advanced options, system integra
   - **Dhizuku:** can perform DevicePolicyManager-based operations such as default installer locking and app installation, but is limited for other privileged tasks.
   - **None:** is fully limited by the system, but can silently install when InstallerX is running as the system package installer.
 - **Profiles:** define how installation and uninstallation requests are handled, including install mode, authorizer override, installer/requester metadata, target user, DexOpt, auto-delete behavior, split selection, blacklist policy, and signature gates.
-- **System integration:** InstallerX can be locked as the default installer from the Home page status card, used with LSPosed modules such as [InxLocker](https://github.com/Chimioo/InxLocker), or installed as a replacement system package manager by advanced users.
+- **System integration:** InstallerX can be locked as the default installer from the Home page status card, used with LSPosed modules such as [InxLocker](https://github.com/xingmihai/InxLocker), or installed as a replacement system package manager by advanced users.
 - **Modern UI:** Material 3 Expressive and Miuix interface styles, dark mode, dynamic color, advanced palettes, system icon packs, colorful dialogs, standard notifications, Live Activity, and Xiaomi HyperOS-style island notifications on supported Xiaomi devices.
 - **Safety controls:** package-name and SharedUID blacklists, signature mismatch and unknown-signature policy gates, permission preview, install flags, and one-time smart suggestions for selected blocked cases.
 
@@ -100,7 +100,7 @@ Before opening an issue, please read [CONTRIBUTING.md](../CONTRIBUTING.md) for t
 
 ### I cannot lock InstallerX as the default installer
 
-Some OEM systems strictly control the default package installer. Open the default installer page from the Home page status card and try locking from there. If the ROM still prevents it, use an LSPosed module such as [InxLocker](https://github.com/Chimioo/InxLocker).
+Some OEM systems strictly control the default package installer. Open the default installer page from the Home page status card and try locking from there. If the ROM still prevents it, use an LSPosed module such as [InxLocker](https://github.com/xingmihai/InxLocker).
 
 ### HyperOS says installing system apps requires a valid installer
 

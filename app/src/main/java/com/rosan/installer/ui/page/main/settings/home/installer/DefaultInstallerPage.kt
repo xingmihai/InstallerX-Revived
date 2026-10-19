@@ -253,7 +253,7 @@ fun DefaultInstallerPage(useBlur: Boolean, viewModel: HomePageViewModel = koinVi
                                 color = MaterialTheme.colorScheme.primary,
                                 textDecoration = TextDecoration.Underline,
                                 modifier = Modifier.clickable {
-                                    uriHandler.openUri("https://github.com/Chimioo/InxLocker")
+                                    uriHandler.openUri("https://github.com/xingmihai/InxLocker")
                                 },
                             )
                         }
