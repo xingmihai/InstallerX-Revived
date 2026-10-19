@@ -19,6 +19,7 @@ import com.rosan.installer.ui.page.main.installer.InstallerViewAction
 import com.rosan.installer.ui.page.main.installer.InstallerViewModel
 import com.rosan.installer.ui.page.main.installer.components.PositionDialog
 import com.rosan.installer.ui.page.main.installer.dialog.inner.ModuleInstallSheetContent
+import com.rosan.installer.ui.page.main.installer.sheet.Material3InstallerSheet
 import com.rosan.installer.ui.page.main.widget.util.InstallerEventCollector
 import com.rosan.installer.ui.theme.InstallerMaterialExpressiveTheme
 import com.rosan.installer.ui.theme.InstallerTheme
@@ -117,38 +118,47 @@ fun DialogPage(session: InstallerSessionRepository, viewModel: InstallerViewMode
                     )
                 }
             }
-            // Handle other non-Ready states: Show standard PositionDialog
+            // Handle other non-Ready states: Show the glass bottom sheet or the standard PositionDialog
             else if (stage !is InstallerStage.Ready) {
                 val params = dialogGenerateParams(viewModel)
 
-                PositionDialog(
-                    useBlur = useBlur,
-                    onDismissRequest = {
-                        val currentUiState = viewModel.uiState.value
-                        val currentStage = currentUiState.stage
+                val dismissRequest = {
+                    val currentUiState = viewModel.uiState.value
+                    val currentStage = currentUiState.stage
 
-                        if (currentUiState.isDismissible) {
-                            // If we are in the confirmation stage and the user taps outside (scrim) or swipes back
-                            if (currentStage is InstallerStage.InstallConfirm) {
-                                viewModel.dispatch(InstallerViewAction.ApproveSession(currentStage.sessionId, false))
-                                return@PositionDialog
-                            }
-
+                    if (currentUiState.isDismissible) {
+                        // If we are in the confirmation stage and the user taps outside (scrim) or swipes back
+                        if (currentStage is InstallerStage.InstallConfirm) {
+                            viewModel.dispatch(InstallerViewAction.ApproveSession(currentStage.sessionId, false))
+                        } else if (currentUiState.viewSettings.disableNotificationOnDismiss) {
                             // Normal dismissal logic for other stages
-                            if (currentUiState.viewSettings.disableNotificationOnDismiss) {
-                                viewModel.dispatch(InstallerViewAction.Close)
-                            } else {
-                                viewModel.dispatch(InstallerViewAction.Background)
-                            }
+                            viewModel.dispatch(InstallerViewAction.Close)
+                        } else {
+                            viewModel.dispatch(InstallerViewAction.Background)
                         }
-                    },
-                    centerIcon = dialogInnerWidget(params.icon),
-                    centerTitle = dialogInnerWidget(params.title),
-                    centerSubtitle = dialogInnerWidget(params.subtitle),
-                    centerText = dialogInnerWidget(params.text),
-                    centerContent = dialogInnerWidget(params.content),
-                    centerButton = dialogInnerWidget(params.buttons),
-                )
+                    }
+                }
+
+                if (viewSettings.useInstallerSheet) {
+                    Material3InstallerSheet(
+                        params = params,
+                        useBlur = useBlur,
+                        isDark = isDark,
+                        isDismissible = { viewModel.uiState.value.isDismissible },
+                        onDismissRequest = { dismissRequest() },
+                    )
+                } else {
+                    PositionDialog(
+                        useBlur = useBlur,
+                        onDismissRequest = { dismissRequest() },
+                        centerIcon = dialogInnerWidget(params.icon),
+                        centerTitle = dialogInnerWidget(params.title),
+                        centerSubtitle = dialogInnerWidget(params.subtitle),
+                        centerText = dialogInnerWidget(params.text),
+                        centerContent = dialogInnerWidget(params.content),
+                        centerButton = dialogInnerWidget(params.buttons),
+                    )
+                }
             }
         }
     }

@@ -159,6 +159,7 @@ class AppSettingsRepositoryImpl(
             useDynamicColor = prefs[AppDataStore.THEME_USE_DYNAMIC_COLOR] ?: true,
             useMiuixMonet = prefs[AppDataStore.UI_USE_MIUIX_MONET] ?: false,
             useAppleFloatingBar = prefs[AppDataStore.UI_USE_APPLE_FLOATING_BAR] ?: false,
+            useInstallerSheet = prefs[AppDataStore.UI_USE_INSTALLER_SHEET] ?: true,
             seedColorInt = prefs[AppDataStore.THEME_SEED_COLOR] ?: DEFAULT_SEED_COLOR,
             wallpaperSeedColorInt = prefs[AppDataStore.THEME_WALLPAPER_SEED_COLOR] ?: 0,
             useDynColorFollowPkgIcon = prefs[AppDataStore.UI_DYN_COLOR_FOLLOW_PKG_ICON] ?: false,
@@ -259,6 +260,7 @@ class AppSettingsRepositoryImpl(
         BooleanSetting.UiUseMiuixMonet -> AppDataStore.UI_USE_MIUIX_MONET
 
         BooleanSetting.UiUseAppleFloatingBar -> AppDataStore.UI_USE_APPLE_FLOATING_BAR
+        BooleanSetting.UiUseInstallerSheet -> AppDataStore.UI_USE_INSTALLER_SHEET
 
         BooleanSetting.UiDynColorFollowPkgIcon -> AppDataStore.UI_DYN_COLOR_FOLLOW_PKG_ICON
 

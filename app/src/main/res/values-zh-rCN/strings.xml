@@ -120,6 +120,8 @@
     <string name="theme_settings_ui_engine">UI 引擎</string>
     <string name="theme_settings_use_apple_floating_bar">启用悬浮底栏</string>
     <string name="theme_settings_use_apple_floating_bar_desc">在屏幕底部使用悬浮样式的导航栏</string>
+    <string name="theme_settings_use_installer_sheet">安装界面使用底部弹窗</string>
+    <string name="theme_settings_use_installer_sheet_desc">以悬浮玻璃质感的底部弹窗替代居中对话框来展示安装界面</string>
     <string name="theme_settings_use_blur">启用模糊</string>
     <string name="theme_settings_use_blur_desc">为应用启用模糊效果</string>
     <string name="theme_settings_theme_mode">主题模式</string>

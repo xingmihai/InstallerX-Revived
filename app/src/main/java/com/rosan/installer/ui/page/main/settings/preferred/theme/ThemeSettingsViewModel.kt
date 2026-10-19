@@ -77,6 +77,7 @@ class ThemeSettingsViewModel(
             useDynamicColor = prefs.useDynamicColor,
             useMiuixMonet = prefs.useMiuixMonet,
             useAppleFloatingBar = prefs.useAppleFloatingBar,
+            useInstallerSheet = prefs.useInstallerSheet,
             seedColor = effectiveSeedColor,
             availableColors = availableColors,
             useDynColorFollowPkgIcon = prefs.useDynColorFollowPkgIcon,
@@ -123,6 +124,13 @@ class ThemeSettingsViewModel(
             is ThemeSettingsAction.SetUseAppleFloatingBar -> viewModelScope.launch {
                 updateSetting(
                     BooleanSetting.UiUseAppleFloatingBar,
+                    action.use,
+                )
+            }
+
+            is ThemeSettingsAction.SetUseInstallerSheet -> viewModelScope.launch {
+                updateSetting(
+                    BooleanSetting.UiUseInstallerSheet,
                     action.use,
                 )
             }

@@ -106,6 +106,7 @@ class InstallerViewModel(
                 showSignatureDetails = prefs.showSignatureDetails,
                 detectXposedModule = prefs.detectXposedModule,
                 quickOpenLSPosed = prefs.quickOpenLSPosed,
+                useInstallerSheet = prefs.useInstallerSheet,
                 autoSilentInstall = prefs.autoSilentInstall,
                 longClickBackgroundInstall = prefs.longClickBackgroundInstall,
                 labTapIconToShare = prefs.labTapIconToShare,

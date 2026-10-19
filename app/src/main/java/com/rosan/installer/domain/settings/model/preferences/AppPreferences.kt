@@ -84,6 +84,7 @@ data class AppPreferences(
     val useDynamicColor: Boolean,
     val useMiuixMonet: Boolean,
     val useAppleFloatingBar: Boolean,
+    val useInstallerSheet: Boolean,
     val seedColorInt: Int, // Stored as raw Int from DataStore
     val wallpaperSeedColorInt: Int,
     val useDynColorFollowPkgIcon: Boolean,

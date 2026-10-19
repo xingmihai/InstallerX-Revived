@@ -23,6 +23,7 @@ data class InstallerViewSettings(
     val showSignatureDetails: Boolean = false,
     val detectXposedModule: Boolean = true,
     val quickOpenLSPosed: Boolean = true,
+    val useInstallerSheet: Boolean = true,
     // Lab
     val labTapIconToShare: Boolean = false,
     val labShowFilePath: Boolean = false,

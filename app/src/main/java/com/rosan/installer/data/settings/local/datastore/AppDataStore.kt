@@ -49,6 +49,7 @@ class AppDataStore(private val dataStore: DataStore<Preferences>, private val js
         val UI_USE_MIUIX = register(booleanPreferencesKey("ui_use_miui_x"), PreferenceValueType.BOOLEAN)
         val UI_USE_MIUIX_MONET = register(booleanPreferencesKey("ui_use_miui_x_monet"), PreferenceValueType.BOOLEAN)
         val UI_USE_APPLE_FLOATING_BAR = register(booleanPreferencesKey("ui_use_apple_floating_bar"), PreferenceValueType.BOOLEAN)
+        val UI_USE_INSTALLER_SHEET = register(booleanPreferencesKey("ui_use_installer_sheet"), PreferenceValueType.BOOLEAN)
         val UI_DYN_COLOR_FOLLOW_PKG_ICON =
             register(booleanPreferencesKey("ui_dyn_color_follow_pkg_icon"), PreferenceValueType.BOOLEAN)
         val LIVE_ACTIVITY_DYN_COLOR_FOLLOW_PKG_ICON =
