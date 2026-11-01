@@ -574,7 +574,7 @@ private fun AboutContentBody(
                         MiuixNavigationItemWidget(
                             title = stringResource(R.string.get_source_code),
                             description = stringResource(R.string.get_source_code_detail),
-                            onClick = { uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived") },
+                            onClick = { uriHandler.openUri("https://github.com/xingmihai/InstallerX-Revived") },
                         )
                         MiuixNavigationItemWidget(
                             title = stringResource(R.string.open_source_license),
